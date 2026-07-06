@@ -104,6 +104,18 @@ case "Wicket": {
         };
   
 }
+case "dot" : {
+ const balls = state.balls +1  ;
+     
+    
+      return {
+        ...state , 
+          balls : state.balls === 5? 0:balls , 
+           overs: state.balls === 5 ? state.overs +1 : state.overs ,
+           
+        };
+  
+}
    
     
     
@@ -171,7 +183,8 @@ return(
             <Button innercomponent={"5"} clicktype={"fiverun"} dispatch={dispatch} /> 
             <Button innercomponent={"6"} clicktype={"sixrun"} dispatch={dispatch} />  
             <Button innercomponent={"wide"} clicktype={"wide"} dispatch={dispatch} />
-             <Button innercomponent={"Wicket"} clicktype={"Wicket"} dispatch={dispatch} />
+            <Button innercomponent={"Wicket"} clicktype={"Wicket"} dispatch={dispatch} />
+            <Button innercomponent={"Dot"} clicktype={"dot"} dispatch={dispatch} />
        
 
             
