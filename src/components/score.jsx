@@ -176,8 +176,8 @@ return(
 
             
         </div> : ""}
-       {status ===false ?  <button className="bg-red-600 text-white font-bold p-2" onClick={()=> {setstatus(true) }}>end ininings?</button> : ""}
-       {status === true ?  <button className="bg-green-600 font-black p-2 text-white" onClick={() =>{setstatus(false) , dispatch({type:"end"})}  }>start second inings</button> : ""} 
+       {status ===false ?  <button className="bg-red-600 text-white font-bold p-2 rounded-xl" onClick={()=> {setstatus(true) }}>end ininings?</button> : ""}
+       {status === true ?  <button className="bg-green-600 font-black p-2 text-white rounded-xl" onClick={() =>{setstatus(false) , dispatch({type:"end"})}  }>start second inings</button> : ""} 
 
 
 
