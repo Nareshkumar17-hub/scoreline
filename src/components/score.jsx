@@ -15,18 +15,20 @@ function Score() {
   case "onerun": { //one run
       const balls = state.balls +1 
       return {
-        ...state , total : state.total +1 ,
-          balls : state.balls === 5? 0:balls , 
-          overs : state.balls === 5 ? state.overs +1 : state.overs
-        
-        
+        ...state ,
+        history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs , wicket : state.wicket}] ,
+        total : state.total +1 ,
+        balls : state.balls === 5? 0:balls , 
+        overs : state.balls === 5 ? state.overs +1 : state.overs
         };
   
 } 
 case "tworun": {//two run 
       const balls = state.balls +1 
       return {
-        ...state , total : state.total +2 ,
+        ...state ,
+         history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs , wicket : state.wicket}] ,
+         total : state.total +2 ,
           balls : state.balls === 5? 0:balls , 
           overs : state.balls === 5 ? state.overs +1 : state.overs
         
@@ -38,7 +40,9 @@ case "tworun": {//two run
 case "threerun": { //three run 
       const balls = state.balls +1 
       return {
-        ...state , total : state.total +3 ,
+        ...state ,
+         history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs , wicket: state.wicket}] , 
+        total : state.total +3 ,
           balls : state.balls === 5? 0:balls , 
           overs : state.balls === 5 ? state.overs +1 : state.overs
         
@@ -49,7 +53,9 @@ case "threerun": { //three run
 case "fourrun": { //fourrun
       const balls = state.balls +1 
       return {
-        ...state , total : state.total +4 ,
+        ...state ,
+         history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs , wicket:state.wicket}] ,
+        total : state.total +4 ,
           balls : state.balls === 5? 0:balls , 
           overs : state.balls === 5 ? state.overs +1 : state.overs
         
@@ -61,7 +67,9 @@ case "fourrun": { //fourrun
 case "fiverun": { //five run 
       const balls = state.balls +1 
       return {
-        ...state , total : state.total +5 ,
+        ...state ,
+         history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs , wicket: state.wicket}] ,
+        total : state.total +5 ,
           balls : state.balls === 5? 0:balls , 
           overs : state.balls === 5 ? state.overs +1 : state.overs
         
@@ -75,6 +83,7 @@ case "sixrun": { // sixruns
     
       return {
         ...state , 
+         history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs ,wicket: state.wicket}] ,
           total : state.total +6 ,
           balls : state.balls === 5? 0:balls , 
            overs: state.balls === 5 ? state.overs +1 : state.overs ,
@@ -86,17 +95,22 @@ case "sixrun": { // sixruns
 case "end" :{ 
       
 
-    return{...state  ,total: 0 , balls : 0 , overs : 0 , wicket : 0} 
+    return{...state  ,
+       history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs ,wicket:state.wicket}] ,
+      total: 0 , balls : 0 , overs : 0 , wicket : 0} 
     
 }
  case "wide" :
-    return {...state , total: state.total +1} 
+    return {...state ,
+       history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs , wicket : state.wicket}] ,
+       total: state.total +1} 
 case "Wicket": {
     const balls = state.balls +1  ;
      
     
       return {
         ...state , 
+         history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs , wicket : state.wicket}] ,
           wicket : state.wicket +1 ,
           balls : state.balls === 5? 0:balls , 
            overs: state.balls === 5 ? state.overs +1 : state.overs ,
@@ -110,12 +124,24 @@ case "dot" : {
     
       return {
         ...state , 
+        history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs , wicket : state.wicket}] , 
           balls : state.balls === 5? 0:balls , 
            overs: state.balls === 5 ? state.overs +1 : state.overs ,
            
         };
   
+} 
+case "undo": {
+  return {
+    ...state , 
+    total : state.history.at(-1).total , 
+    wicket : state.history.at(-1).wicket , 
+    overs : state.history.at(-1).overs , 
+    balls : state.history.at(-1).balls
+
+  }
 }
+console.log(state.history);
    
     
     
@@ -134,7 +160,7 @@ case "load":
 
 
 }
-const [state , dispatch] = useReducer(reducer , {total : 0 , wicket : 0 ,  overs: 0 , balls: 0  , }) 
+const [state , dispatch] = useReducer(reducer , {total : 0 , wicket : 0 ,  overs: 0 , balls: 0  , history : []}) 
 
 // local storage..incase the user reload accidently the data shouldd not reset 
 
@@ -188,7 +214,8 @@ return(
        
 
             
-        </div> : ""}
+        </div> : ""} 
+        <button className="bg-green-500 font-bold text-white p-4 rounded-2xl" onClick={() => dispatch({type: "undo"})}>Undo</button>
        {status ===false ?  <button className="bg-red-600 text-white font-bold p-2 rounded-xl" onClick={()=> {setstatus(true) }}>end ininings?</button> : ""}
        {status === true ?  <button className="bg-green-600 font-black p-2 text-white rounded-xl" onClick={() =>{setstatus(false) , dispatch({type:"end"})}  }>start second inings</button> : ""} 
        {status === true ?  <button className="bg-red-600 font-black p-2 text-white rounded-xl" onClick={() =>{setstatus(false) }  }>Back</button> : ""} 
