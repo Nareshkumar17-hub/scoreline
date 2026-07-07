@@ -147,8 +147,7 @@ console.log(state.history);
     
 case "load": 
  console.log("LOAD ACTION", action.payload);
-  return action.payload;
-
+  return action.payload
  default:
     return state
 
@@ -171,7 +170,10 @@ useEffect(() => {
   if (getstate) {
     dispatch({
       type: "load",
-      payload: getstate,
+      payload: {
+    ...getstate,
+    history: getstate.history ?? []
+  }
     });
   }
 
