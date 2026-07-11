@@ -6,7 +6,12 @@ function Info() {
      <>
        <div className="bg-red-600 text-white font-bold p-1"> 
         
-          <p className="text-justify">This is a starting version of web-app use to calculate runs , overs , wickets..please stay tuned for more updates - Naresh Kumar R S</p>
+          <p className="text-justify"> Enjoy!! this is a scoreline version-1.1 - Naresh Kumar R S</p> 
+
+          <ul>
+            <li>Added target feature</li>
+            <li>Added chasing and new match feature</li>
+          </ul>
        </div>
      
      
