@@ -1,5 +1,6 @@
-import {useReducer, useState , useEffect, use} from "react";
+import {useReducer, useState , useEffect} from "react";
 import Button from "./buttons";
+import reducer from "../score_code";
 
 
 
@@ -13,182 +14,12 @@ function Score() {
     
 
 
-    function reducer(state , action){
-     
- switch(action.type) {   // writing this code for adding runs and wicket and wide, no balls , overs 
-  case "onerun": { //one run
-      const balls = state.balls +1 
-      return {
-        ...state ,
-        history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs , wicket : state.wicket , target:state.total+1 }] ,
-        total : state.total +1 ,
-        balls : state.balls === 5? 0:balls , 
-        overs : state.balls === 5 ? state.overs +1 : state.overs 
-
-        };
-  
-} 
-case "tworun": {//two run 
-      const balls = state.balls +1 
-      return {
-        ...state ,
-         history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs , wicket : state.wicket , target:state.total +1 }] ,
-         total : state.total +2 ,
-          balls : state.balls === 5? 0:balls , 
-          overs : state.balls === 5 ? state.overs +1 : state.overs
-        
-        
-        };
-  
-} 
-
-case "threerun": { //three run 
-      const balls = state.balls +1 
-      return {
-        ...state ,
-         history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs , wicket: state.wicket , target:state.total + 1}] , 
-        total : state.total +3 ,
-          balls : state.balls === 5? 0:balls , 
-          overs : state.balls === 5 ? state.overs +1 : state.overs
-        
-        
-        };
-  
-}
-case "fourrun": { //fourrun
-      const balls = state.balls +1 
-      return {
-        ...state ,
-         history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs , wicket:state.wicket , target:state.total+1 }] ,
-        total : state.total +4 ,
-          balls : state.balls === 5? 0:balls , 
-          overs : state.balls === 5 ? state.overs +1 : state.overs
-        
-        
-        };
-  
-}
-
-case "fiverun": { //five run 
-      const balls = state.balls +1 
-      return {
-        ...state ,
-         history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs , wicket: state.wicket , target:state.total +1}] ,
-        total : state.total +5 ,
-          balls : state.balls === 5? 0:balls , 
-          overs : state.balls === 5 ? state.overs +1 : state.overs
-        
-        
-        };
-  
-} 
-case "sixrun": { // sixruns 
-      const balls = state.balls +1  ;
-     
-    
-      return {
-        ...state , 
-         history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs ,wicket: state.wicket , target:state.total +1 }] ,
-          total : state.total +6 ,
-          balls : state.balls === 5? 0:balls , 
-           overs: state.balls === 5 ? state.overs +1 : state.overs ,
-           
-        };
-  
-} 
-
-case "end" :{ 
-      
-
-    return{...state  ,
-       history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs ,wicket:state.wicket , target:state.total +1}] ,
-      total: 0 , balls : 0 , overs : 0 , wicket : 0 } 
-    
-}
- case "wide" :
-    return {...state ,
-       history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs , wicket : state.wicket , target:state.total+1 }] ,
-       total: state.total +1} 
-case "Wicket": {
-    const balls = state.balls +1  ;
-     
-    
-      return {
-        ...state , 
-         history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs , wicket : state.wicket , target:state.total +1 }] ,
-          wicket : state.wicket +1 ,
-          balls : state.balls === 5? 0:balls , 
-           overs: state.balls === 5 ? state.overs +1 : state.overs ,
-           
-        };
-  
-}
-case "dot" : {
- const balls = state.balls +1  ;
-     
-    
-      return {
-        ...state , 
-        history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs , wicket : state.wicket , target:state.total +1}] , 
-          balls : state.balls === 5? 0:balls , 
-           overs: state.balls === 5 ? state.overs +1 : state.overs ,
-           
-        };
-  
-} 
-case "undo": {
-  return {
-    ...state , 
-    total : state.history.at(-1).total , 
-    wicket : state.history.at(-1).wicket , 
-    overs : state.history.at(-1).overs , 
-    balls : state.history.at(-1).balls
-
-  }
-} 
-
-case "target" : {
-   return{...state  ,
-       history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs ,wicket:state.wicket , target:state.total +1}] ,
-      total: 0 , balls : 0 , overs : 0 , wicket : 0 , target: state.total +1  , history : []} 
-    
-}
-
-case "new match" :{ 
-      
-
-    return{...state  ,
-       history: [...state.history , {total: state.total , balls: state.balls , overs: state.overs ,wicket:state.wicket , target:state.total +1}] ,
-      total: 0 , balls : 0 , overs : 0 , wicket : 0  , history: [] , target : null} 
-    
-}
-
-
-   
-    
-    
-case "load": 
- console.log("LOAD ACTION", action.payload);
-  return action.payload
- default:
-    return state
-
-   
-
-}  
-
  
-
-
-
-
-
-}
 const [state , dispatch] = useReducer(reducer , {total : 0 , wicket : 0 ,  overs: 0 , balls: 0  , history : [] , target: 0}) 
 
 
 
-useEffect(()=>{
+useEffect(()=>{  // to detect chasing 
  if (state.target > 0 && state.total >= state.target) {
         alert("Match won!");
         setendmatch(true); 
@@ -257,7 +88,12 @@ return(
             <Button innercomponent={"6"} clicktype={"sixrun"} dispatch={dispatch} />  
             <Button innercomponent={"wide"} clicktype={"wide"} dispatch={dispatch} />
             <Button innercomponent={"Wicket"} clicktype={"Wicket"} dispatch={dispatch} />
-            <Button innercomponent={"Dot"} clicktype={"dot"} dispatch={dispatch} />
+            <Button innercomponent={"Dot"} clicktype={"dot"} dispatch={dispatch} /> 
+            <Button innercomponent={"1 Run + runout"} clicktype={"onerun and runout"} dispatch={dispatch} /> 
+            <Button innercomponent={"2 Runs + runout"} clicktype={"tworuns and runout"} dispatch={dispatch} /> 
+            <Button innercomponent={"3 Runs + runout"} clicktype={"threeruns and runout"} dispatch={dispatch} /> 
+
+       
        
 
             
@@ -265,7 +101,7 @@ return(
        {status === false?  <button className="bg-green-500 font-bold text-white p-4 rounded-2xl" onClick={() => dispatch({type: "undo"})} style={{display: endmatch ? "none" : "block"}}>Undo</button> : ""}
        {status ===false ?  <button className="bg-red-600 text-white font-bold p-2 rounded-xl" onClick={()=> {setstatus(true)  , dispatch({type:"target"})}} style={{display: endmatch ? "none" : "block"}} >end ininings?</button> : ""}
        {status === true ?  <button className="bg-green-600 font-black p-2 text-white rounded-xl" onClick={() =>{setstatus(false) ,setshowtarget(true) , dispatch({type:"end"})}} style={{display: endmatch ? "none" : "block"}}>start second inings</button> : "" } 
-         {endmatch === true ?  <button className="bg-green-600 font-black p-4 text-white rounded-xl" onClick={() =>{setendmatch(false) , setshowtarget(false) , dispatch({type: "new match"}) }  }>new match</button> : ""} 
+       {endmatch === true ?  <button className="bg-green-600 font-black p-4 text-white rounded-xl" onClick={() =>{setendmatch(false) , setshowtarget(false) , dispatch({type: "new match"}) }  }>new match</button> : ""} 
 
 
 
